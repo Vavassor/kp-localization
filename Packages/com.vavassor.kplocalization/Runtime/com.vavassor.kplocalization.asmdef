@@ -1,0 +1,17 @@
+{
+  "name": "com.vavassor.kplocalization",
+  "references": [
+    "VRC.SDK3",
+    "VRC.SDKBase",
+    "VRC.Udon",
+    "UdonSharp.Runtime"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "autoReferenced": true,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "defineConstraints": [],
+  "optionalUnityReferences": []
+}

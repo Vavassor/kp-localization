@@ -1,0 +1,5 @@
+{
+    "interpolationBoard": {
+        "teamMemberAddedMessage": "{{playerName}} added to team {{teamName}}"
+    }
+}
