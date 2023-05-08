@@ -1,18 +1,21 @@
 {
   "name": "com.vavassor.kplocalization",
   "displayName": "KP Localization",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Localization for VRChat worlds",
   "author": {
     "email": "dawso.andrew@gmail.com",
     "name": "Andrew Dawson"
   },
+  "license": "MIT",
   "gitDependencies": {},
   "vpmDependencies": {
     "com.vrchat.worlds": "3.2.0",
     "com.vrchat.udonsharp": "1.1.8"
   },
-  "legacyFolders": {},
+  "legacyFolders" : {
+    "Assets\\Localization" : "d5416dfbd5447d34d8f698d0ff2cff17"
+  },
   "legacyFiles": {},
   "localPath": "C:\\Users\\Coper\\OneDrive\\Documents\\Unity Projects\\kp-localization\\Packages\\com.vavassor.kplocalization",
   "type": "library",
