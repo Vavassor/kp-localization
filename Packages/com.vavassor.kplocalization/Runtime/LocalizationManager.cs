@@ -1,11 +1,13 @@
-﻿using UdonSharp;
-using UnityEngine;
-using VRC.SDK3.Data;
-using VRC.SDKBase;
-using VRC.Udon;
+﻿using UnityEngine;
 
 namespace KPLocalization
 {
+    using UdonSharp;
+
+    using VRC.SDK3.Data;
+    using VRC.SDKBase;
+    using VRC.Udon;
+
     /// <summary>
     /// Localization settings and functionality for a world.
     /// </summary>

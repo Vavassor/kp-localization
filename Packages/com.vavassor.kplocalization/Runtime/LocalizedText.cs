@@ -1,10 +1,11 @@
-﻿using UdonSharp;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using VRC.Udon;
 
 namespace KPLocalization
 {
+    using UdonSharp;
+    using VRC.Udon;
+
     /// <summary>
     /// Localization information for a UI text component.
     /// 
