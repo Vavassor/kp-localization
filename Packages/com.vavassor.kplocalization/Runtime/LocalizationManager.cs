@@ -59,20 +59,17 @@ namespace KPLocalization
             set
             {
                 preferredLocales = value;
-
-                var searchLocales = GetSearchLocales();
+                searchLocales = GetSearchLocales();
 
                 foreach (var text in texts)
                 {
-                    var foundValue = FindValue(text, searchLocales);
-                    var interpolatedValue = Interpolate(text, foundValue);
-                    var transformedValue = Transform(text, interpolatedValue);
-                    text.SetText(transformedValue);
+                    UpdateLocalizedText(text);
                 }
             }
             get => preferredLocales;
         }
 
+        private string[] searchLocales;
         private DataDictionary resourcesByLocale = new DataDictionary();
 
         /// <summary>
@@ -84,9 +81,23 @@ namespace KPLocalization
             PreferredLocales = new string[] { preferredLocale };
         }
 
+        public void UpdateLocalizedText(LocalizedText text)
+        {
+            var foundValue = FindValue(text, searchLocales);
+            var interpolatedValue = Interpolate(text, foundValue);
+            var transformedValue = Transform(text, interpolatedValue);
+            text.Text = transformedValue;
+        }
+
         private void Start()
         {
             LoadResources();
+
+            foreach (var text in texts)
+            {
+                text.localizationManager = this;
+                text.OnLocalizationManagerStart();
+            }
 
             if (shouldUpdateAssetsOnStart)
             {

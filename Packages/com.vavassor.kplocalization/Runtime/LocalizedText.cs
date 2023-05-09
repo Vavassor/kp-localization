@@ -24,11 +24,15 @@ namespace KPLocalization
         /// For example, the context could be gender for gender-specific translations.
         /// </example>
         /// </summary>
+        [FieldChangeCallback(nameof(Context))]
         public string context;
+
         /// <summary>
         /// How many items are relevant for plural forms.
         /// </summary>
+        [FieldChangeCallback(nameof(Count))]
         public int count;
+
         /// <summary>
         /// Keys for interpolation.
         /// <example>
@@ -39,6 +43,7 @@ namespace KPLocalization
         /// </example>
         /// </summary>
         public string[] interpolationKeys;
+
         /// <summary>
         /// Values for interpolation.
         /// <example>
@@ -49,33 +54,93 @@ namespace KPLocalization
         /// A value of 100 would be interpolated into the text "100 items".
         /// </example>
         /// </summary>
+        [FieldChangeCallback(nameof(InterpolationValues))]
         public string[] interpolationValues;
+
         public string key;
+
+        /// <summary>
+        /// The localization manager managing this text.
+        /// </summary>
+        [HideInInspector]
+        public LocalizationManager localizationManager;
+
         /// <summary>
         /// Convert all text to uppercase.
         /// 
         /// Similar to the CSS property text-transform: uppercase.
         /// </summary>
+        [FieldChangeCallback(nameof(ShouldTransformUppercase))]
         public bool shouldTransformUppercase;
+
         public bool shouldUseCount;
 
-        private bool isInitialized;
-        private Text textComponent;
+        [FieldChangeCallback(nameof(Text)), HideInInspector]
+        public string text;
 
-        private void EnsureInitialized()
+        public string Context
         {
-            if (!isInitialized)
+            set
             {
-                textComponent = GetComponent<Text>();
-
-                isInitialized = true;
+                context = value;
+                UpdateText();
             }
+            get => context;
         }
 
-        public void SetText(string text)
+        public int Count
         {
-            EnsureInitialized();
-            textComponent.text = text;
+            set
+            {
+                count = value;
+                UpdateText();
+            }
+            get => count;
+        }
+
+        public string[] InterpolationValues
+        {
+            set
+            {
+                interpolationValues = value;
+                UpdateText();
+            }
+            get => interpolationValues;
+        }
+
+        public bool ShouldTransformUppercase
+        {
+            set
+            {
+                shouldTransformUppercase = value;
+                UpdateText();
+            }
+            get => shouldTransformUppercase;
+        }
+
+        public string Text
+        {
+            set
+            {
+                text = value;
+                textComponent.text = text;
+            }
+            get => text;
+        }
+
+        private Text textComponent;
+
+        public void OnLocalizationManagerStart()
+        {
+            textComponent = GetComponent<Text>();
+        }
+
+        private void UpdateText()
+        {
+            if (localizationManager != null)
+            {
+                localizationManager.UpdateLocalizedText(this);
+            }
         }
     }
 }
