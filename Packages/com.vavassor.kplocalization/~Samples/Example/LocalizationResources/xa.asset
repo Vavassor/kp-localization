@@ -1,0 +1,12 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!49 &4900000
+TextAsset:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: xa
+  m_Script: "{\n\t\"interpolationBoard\": {\n\t\t\"teamMemberAddedMessage\": \"[!!!
+    {{playerName}} \xE1\u03B4\u03B4\xE8\u03B4 \u01AD\xF4 \u01AD\xE8\xE1\u20A5 {{teamName}}
+    !!!]\"\n\t}\n}"

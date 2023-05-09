@@ -25,6 +25,7 @@ namespace KPLocalization
         /// <summary>
         /// The user's preferred languages in preference order, as IETF language tags.
         /// </summary>
+        [FieldChangeCallback(nameof(PreferredLocales))]
         public string[] preferredLocales = { "en" };
         /// <summary>
         /// The placeholder text to return when a key is not found.
@@ -53,6 +54,25 @@ namespace KPLocalization
         /// </summary>
         public LocalizedText[] texts;
 
+        public string[] PreferredLocales
+        {
+            set
+            {
+                preferredLocales = value;
+
+                var searchLocales = GetSearchLocales();
+
+                foreach (var text in texts)
+                {
+                    var foundValue = FindValue(text, searchLocales);
+                    var interpolatedValue = Interpolate(text, foundValue);
+                    var transformedValue = Transform(text, interpolatedValue);
+                    text.SetText(transformedValue);
+                }
+            }
+            get => preferredLocales;
+        }
+
         private DataDictionary resourcesByLocale = new DataDictionary();
 
         /// <summary>
@@ -61,29 +81,7 @@ namespace KPLocalization
         /// <param name="preferredLocale">The locale as an IETF language tag.</param>
         public void SetPreferredLocale(string preferredLocale)
         {
-            SetPreferredLocales(new string[] { preferredLocale });
-        }
-
-        /// <summary>
-        /// Set the user's preferred locales.
-        /// </summary>
-        /// <remarks>
-        /// Use <see cref="SetPreferredLocale"/> if you don't need to support multi-lingual user preferences.
-        /// </remarks>
-        /// <param name="newPreferredLocales">The locales in order of preference, as IETF language tags.</param>
-        public void SetPreferredLocales(string[] newPreferredLocales)
-        {
-            preferredLocales = newPreferredLocales;
-
-            var searchLocales = GetSearchLocales();
-
-            foreach (var text in texts)
-            {
-                var foundValue = FindValue(text, searchLocales);
-                var interpolatedValue = Interpolate(text, foundValue);
-                var transformedValue = Transform(text, interpolatedValue);
-                text.SetText(transformedValue);
-            }
+            PreferredLocales = new string[] { preferredLocale };
         }
 
         private void Start()
@@ -122,9 +120,9 @@ namespace KPLocalization
             DataList searchList = new DataList();
             var isDefaultInPreferences = false;
 
-            for (var i = 0; i < preferredLocales.Length; i++)
+            for (var i = 0; i < PreferredLocales.Length; i++)
             {
-                var preferredLocale = preferredLocales[i];
+                var preferredLocale = PreferredLocales[i];
                 if (preferredLocale.Equals(defaultLocale))
                 {
                     isDefaultInPreferences = true;
