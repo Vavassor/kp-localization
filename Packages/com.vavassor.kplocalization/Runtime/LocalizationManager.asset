@@ -314,13 +314,13 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 1
-      Data: shouldUpdateAssetsOnStart
+      Data: shouldUseCurrentCultureOnStart
     - Name: $v
       Entry: 7
       Data: 16|UdonSharp.Compiler.FieldDefinition, UdonSharp.Editor
     - Name: <Name>k__BackingField
       Entry: 1
-      Data: shouldUpdateAssetsOnStart
+      Data: shouldUseCurrentCultureOnStart
     - Name: <UserType>k__BackingField
       Entry: 7
       Data: 17|System.RuntimeType, mscorlib

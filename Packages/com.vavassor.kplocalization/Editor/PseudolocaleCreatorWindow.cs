@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if !COMPILER_UDONSHARP && UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 using VRC.SDKBase;
 using VRC.SDK3.Data;
@@ -266,3 +267,4 @@ namespace KPLocalization.Editor
         }
     }
 }
+#endif // !COMPILER_UDONSHARP && UNITY_EDITOR

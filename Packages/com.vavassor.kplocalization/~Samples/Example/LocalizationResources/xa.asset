@@ -7,6 +7,12 @@ TextAsset:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: xa
-  m_Script: "{\n\t\"interpolationBoard\": {\n\t\t\"teamMemberAddedMessage\": \"[!!!
-    {{playerName}} \xE1\u03B4\u03B4\xE8\u03B4 \u01AD\xF4 \u01AD\xE8\xE1\u20A5 {{teamName}}
-    !!!]\"\n\t}\n}"
+  m_Script: "{\n\t\"gameSettingsBoard\": {\n\t\t\"settingsControlMessage\": \"[!!!
+    \xC7\xF4\xF1\u01AD\u0159\xF4\u2113\u2113\xE8\u03B4 \u03B2\xA5 {{playerName}}
+    !!!]\"\n\t},\n\t\"startMenu\": {\n\t\t\"playersReadyMessage_one\": \"[!!! {{count}}
+    \u01A5\u2113\xE1\xA5\xE8\u0159 \u0159\xE8\xE1\u03B4\xA5 !!!]\",\n\t\t\"playersReadyMessage_other\":
+    \"[!!! {{count}} \u01A5\u2113\xE1\xA5\xE8\u0159\u01A8 \u0159\xE8\xE1\u03B4\xA5
+    !!!]\",\n\t\t\"readyButtonLabel\": \"[!!! R\xE8\xE1\u03B4\xA5 !!!]\",\n\t\t\"teamMemberAddedMessage\":
+    \"[!!! {{playerName}} \xE1\u03B4\u03B4\xE8\u03B4 \u01AD\xF4 \u01AD\xE8\xE1\u20A5
+    {{teamName}} !!!]\"\n\t},\n\t\"lobbyNotificationBoard\": {\n\t\t\"lobbyJoinNotification\":
+    \"[!!! {{playerName}} J\xF4\xEF\xF1\xE8\u03B4 !!!]\"\n\t}\n}"

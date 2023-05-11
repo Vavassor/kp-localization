@@ -2,6 +2,7 @@
 
 namespace KPLocalization
 {
+    using System.Globalization;
     using UdonSharp;
 
     using VRC.SDK3.Data;
@@ -48,7 +49,7 @@ namespace KPLocalization
         /// </code>
         /// </summary>
         public TextAsset[] resources;
-        public bool shouldUpdateAssetsOnStart = true;
+        public bool shouldUseCurrentCultureOnStart = true;
         /// <summary>
         /// UI text that should be localized.
         /// </summary>
@@ -60,7 +61,7 @@ namespace KPLocalization
             {
                 preferredLocales = value;
                 searchLocales = GetSearchLocales();
-
+                
                 foreach (var text in texts)
                 {
                     UpdateLocalizedText(text);
@@ -99,9 +100,9 @@ namespace KPLocalization
                 text.OnLocalizationManagerStart();
             }
 
-            if (shouldUpdateAssetsOnStart)
+            if (shouldUseCurrentCultureOnStart)
             {
-                SetPreferredLocale(defaultLocale);
+                SetPreferredLocale(CultureInfo.CurrentCulture.ToString());
             }
         }
 
@@ -134,19 +135,48 @@ namespace KPLocalization
             for (var i = 0; i < PreferredLocales.Length; i++)
             {
                 var preferredLocale = PreferredLocales[i];
+
                 if (preferredLocale.Equals(defaultLocale))
                 {
                     isDefaultInPreferences = true;
                 }
 
-                // TODO: Add language variant fallbacks if the preferred language is regional.
-                // For example, if a preferred locale was "es-MX" (Mexican Spanish), then we may
-                // also want to search "es" (generic Spanish) before other locales.
+                // First, search locales which are an exact match.
+                foreach (var supportedLocale in resourceLocales)
+                {
+                    if (supportedLocale.Equals(preferredLocale))
+                    {
+                        searchList.Add(preferredLocale);
+                        break;
+                    }
+                }
 
-                // TODO: Filter out locales which don't have resources. Ideally nobody would call
-                // SetPreferredLanguages with languages they don't support. But we could log an error
-                // message if they did.
-                searchList.Add(preferredLocale);
+                // Second, search locales which are more general than the preferred locale.
+                // For example, if es is supported and the preferred locale is es-MX.
+                var preferredLocaleParts = preferredLocale.Split('-');
+                var languageSubtag = preferredLocaleParts[0];
+
+                if (preferredLocaleParts.Length > 1)
+                {
+                    foreach (var supportedLocale in resourceLocales)
+                    {
+                        if (supportedLocale.Equals(languageSubtag))
+                        {
+                            searchList.Add(supportedLocale);
+                            break;
+                        }
+                    }
+                }
+
+                // Third, search locales which are the same language.
+                // For example, if es-AR is supported and the preferred locale is es-MX.
+                foreach (var supportedLocale in resourceLocales)
+                {
+                    if (supportedLocale.IndexOf('-') >= 0 && supportedLocale.StartsWith(languageSubtag))
+                    {
+                        searchList.Add(supportedLocale);
+                    }
+                }
             }
 
             if (!isDefaultInPreferences)

@@ -1,5 +1,14 @@
 {
-    "interpolationBoard": {
+    "gameSettingsBoard": {
+        "settingsControlMessage": "Controlled by {{playerName}}"
+    },
+    "startMenu":{
+        "playersReadyMessage_one": "{{count}} player ready",
+        "playersReadyMessage_other": "{{count}} players ready",
+        "readyButtonLabel": "Ready",
         "teamMemberAddedMessage": "{{playerName}} added to team {{teamName}}"
+    },
+    "lobbyNotificationBoard": {
+        "lobbyJoinNotification": "{{playerName}} joined"
     }
 }
