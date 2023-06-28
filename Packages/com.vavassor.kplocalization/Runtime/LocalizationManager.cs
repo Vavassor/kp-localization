@@ -63,6 +63,11 @@ namespace KPLocalization
         /// </summary>
         public LocalizedText[] texts;
 
+        /// <summary>
+        /// Behaviours to notify when preferred locales change.
+        /// </summary>
+        public UdonBehaviour[] changePreferredLocalesObservers;
+
         public string[] PreferredLocales
         {
             set
@@ -83,6 +88,11 @@ namespace KPLocalization
                 foreach (var text in texts)
                 {
                     UpdateLocalizedText(text);
+                }
+
+                foreach (var observer in changePreferredLocalesObservers)
+                {
+                    observer.SendCustomEvent("OnChangePreferredLocales");
                 }
             }
             get => preferredLocales;
