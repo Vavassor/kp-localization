@@ -7,10 +7,14 @@ TextAsset:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: xa
-  m_Script: "{\n\t\"gameSettingsBoard\": {\n\t\t\"settingsControlMessage\": \"[!!!
-    \xC7\xF4\xF1\u01AD\u0159\xF4\u2113\u2113\xE8\u03B4 \u03B2\xA5 {{playerName}}
-    !!!]\"\n\t},\n\t\"startMenu\": {\n\t\t\"playersReadyMessage_one\": \"[!!! {{count}}
-    \u01A5\u2113\xE1\xA5\xE8\u0159 \u0159\xE8\xE1\u03B4\xA5 !!!]\",\n\t\t\"playersReadyMessage_other\":
+  m_Script: "{\n\t\"equalizationSettings\": {\n\t\t\"bassSliderLabel\": \"[!!! \xDF\xE1\u01A8\u01A8
+    !!!]\",\n\t\t\"trebleSliderLabel\": \"[!!! T\u0159\xE8\u03B2\u2113\xE8 !!!]\"\n\t},\n\t\"gameSettingsBoard\":
+    {\n\t\t\"settingsControlMessage\": \"[!!! \xC7\xF4\xF1\u01AD\u0159\xF4\u2113\u2113\xE8\u03B4
+    \u03B2\xA5 {{playerName}} !!!]\"\n\t},\n\t\"startMenu\": {\n\t\t\"gameModeOptionArena\":
+    \"[!!! \xC2\u0159\xE8\xF1\xE1 !!!]\",\n\t\t\"gameModeOptionKingOfTheHill\": \"[!!!
+    K\xEF\xF1\u03F1 \xF4\u0192 \u01AD\u03BB\xE8 H\xEF\u2113\u2113 !!!]\",\n\t\t\"gameModeOptionPlayloadRace\":
+    \"[!!! \xDE\xE1\xA5\u2113\xF4\xE1\u03B4 R\xE1\xE7\xE8 !!!]\",\n\t\t\"playersReadyMessage_one\":
+    \"[!!! {{count}} \u01A5\u2113\xE1\xA5\xE8\u0159 \u0159\xE8\xE1\u03B4\xA5 !!!]\",\n\t\t\"playersReadyMessage_other\":
     \"[!!! {{count}} \u01A5\u2113\xE1\xA5\xE8\u0159\u01A8 \u0159\xE8\xE1\u03B4\xA5
     !!!]\",\n\t\t\"readyButtonLabel\": \"[!!! R\xE8\xE1\u03B4\xA5 !!!]\",\n\t\t\"teamMemberAddedMessage\":
     \"[!!! {{playerName}} \xE1\u03B4\u03B4\xE8\u03B4 \u01AD\xF4 \u01AD\xE8\xE1\u20A5

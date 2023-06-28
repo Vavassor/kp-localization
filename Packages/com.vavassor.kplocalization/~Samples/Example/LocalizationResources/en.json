@@ -1,8 +1,15 @@
 {
+    "equalizationSettings": {
+        "bassSliderLabel": "Bass",
+        "trebleSliderLabel": "Treble"
+    },
     "gameSettingsBoard": {
         "settingsControlMessage": "Controlled by {{playerName}}"
     },
     "startMenu":{
+        "gameModeOptionArena": "Arena",
+        "gameModeOptionKingOfTheHill": "King of the Hill",
+        "gameModeOptionPlayloadRace": "Payload Race",
         "playersReadyMessage_one": "{{count}} player ready",
         "playersReadyMessage_other": "{{count}} players ready",
         "readyButtonLabel": "Ready",

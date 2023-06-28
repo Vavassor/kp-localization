@@ -51,6 +51,14 @@ namespace KPLocalization
         public TextAsset[] resources;
         public bool shouldUseCurrentCultureOnStart = true;
         /// <summary>
+        /// UI enablers that should be localized.
+        /// </summary>
+        public LocalizedEnabler[] enablers;
+        /// <summary>
+        /// Strings that should be localized.
+        /// </summary>
+        public LocalizedString[] strings;
+        /// <summary>
         /// UI text that should be localized.
         /// </summary>
         public LocalizedText[] texts;
@@ -61,7 +69,17 @@ namespace KPLocalization
             {
                 preferredLocales = value;
                 searchLocales = GetSearchLocales();
-                
+
+                foreach (var enabler in enablers)
+                {
+                    enabler.OnChangePreferredLocales();
+                }
+
+                foreach (var str in strings)
+                {
+                    UpdateLocalizedString(str);
+                }
+
                 foreach (var text in texts)
                 {
                     UpdateLocalizedText(text);
@@ -82,11 +100,19 @@ namespace KPLocalization
             PreferredLocales = new string[] { preferredLocale };
         }
 
+        public void UpdateLocalizedString(LocalizedString str)
+        {
+            var foundValue = FindValue(str.key, searchLocales, str.context, str.shouldUseCount, str.count);
+            var interpolatedValue = Interpolate(foundValue, str.interpolationKeys, str.interpolationValues, str.shouldUseCount, str.count);
+            var transformedValue = Transform(str.shouldTransformUppercase, interpolatedValue);
+            str.Text = transformedValue;
+        }
+
         public void UpdateLocalizedText(LocalizedText text)
         {
-            var foundValue = FindValue(text, searchLocales);
-            var interpolatedValue = Interpolate(text, foundValue);
-            var transformedValue = Transform(text, interpolatedValue);
+            var foundValue = FindValue(text.key, searchLocales, text.context, text.shouldUseCount, text.count);
+            var interpolatedValue = Interpolate(foundValue, text.interpolationKeys, text.interpolationValues, text.shouldUseCount, text.count);
+            var transformedValue = Transform(text.shouldTransformUppercase, interpolatedValue);
             text.Text = transformedValue;
         }
 
@@ -98,6 +124,11 @@ namespace KPLocalization
             {
                 text.localizationManager = this;
                 text.OnLocalizationManagerStart();
+            }
+
+            foreach (var enabler in enablers)
+            {
+                enabler.localizationManager = this;
             }
 
             if (shouldUseCurrentCultureOnStart)
@@ -195,11 +226,10 @@ namespace KPLocalization
             return searchLocales;
         }
 
-        private string FindValue(LocalizedText localizedText, string[] searchLocales)
+        private string FindValue(string key, string[] searchLocales, string context = null, bool shouldUseCount = false, int count = 0)
         {
             // Parse the key.
             // A key has the form "segmentName.keyName_context_pluralCategory". The context and plural category are optional.
-            var key = localizedText.key;
             string[] parts = key.Split('.');
 
             if (parts.Length != 2)
@@ -212,15 +242,15 @@ namespace KPLocalization
 
             // If the value is context-dependent, use the key for the specific context.
             var contextDependentKeyName = keyName;
-            if (localizedText.context != null && localizedText.context.Length > 0)
+            if (context != null && context.Length > 0)
             {
-                contextDependentKeyName += "_" + localizedText.context;
+                contextDependentKeyName += "_" + context;
             }
 
             // Search each locale for the value.
             foreach (var locale in searchLocales)
             {
-                var foundValue = FindValueInLocale(localizedText, segmentName, contextDependentKeyName, locale);
+                var foundValue = FindValueInLocale(segmentName, contextDependentKeyName, locale, shouldUseCount, count);
                 if (foundValue != null)
                 {
                     return foundValue;
@@ -230,7 +260,7 @@ namespace KPLocalization
             return placeholderValue;
         }
 
-        private string FindValueInLocale(LocalizedText localizedText, string segmentName, string contextDependentKeyName, string searchLocale)
+        private string FindValueInLocale(string segmentName, string contextDependentKeyName, string searchLocale, bool shouldUseCount = false, int count = 0)
         {
             // Get the resource.
             var hasResource = resourcesByLocale.TryGetValue(searchLocale, out DataToken resourceToken);
@@ -249,9 +279,9 @@ namespace KPLocalization
 
             // If the value could be pluralized, use the key for that plural category.
             var variantKeyName = contextDependentKeyName;
-            if (localizedText.shouldUseCount)
+            if (shouldUseCount)
             {
-                variantKeyName += "_" + GetCardinalPluralCategory(localizedText.count, searchLocale);
+                variantKeyName += "_" + GetCardinalPluralCategory(count, searchLocale);
             }
 
             // Get the value.
@@ -449,9 +479,9 @@ namespace KPLocalization
         /// For example "{{ playerName }} was added to team {{ teamName }}."
         /// </example>
         /// </summary>
-        private string Interpolate(LocalizedText localizedText, string newText)
+        private string Interpolate(string newText, string[] interpolationKeys, string[] interpolationValues, bool shouldUseCount, int count)
         {
-            if (localizedText.interpolationKeys.Length == 0 && !localizedText.shouldUseCount)
+            if (interpolationKeys.Length == 0 && !shouldUseCount)
             {
                 return newText;
             }
@@ -480,18 +510,18 @@ namespace KPLocalization
                                 string interpolationValue;
                                 if (key.Equals("count"))
                                 {
-                                    interpolationValue = localizedText.count.ToString();
+                                    interpolationValue = count.ToString();
                                 }
                                 else
                                 {
-                                    var interpolationKeyIndex = FindInterpolationKey(localizedText.interpolationKeys, key);
+                                    var interpolationKeyIndex = FindInterpolationKey(interpolationKeys, key);
                                     if (interpolationKeyIndex == -1)
                                     {
                                         Debug.LogError("Failed to get value. Unknown interpolation key \"" + key + "\".");
                                         return newText;
                                     }
 
-                                    interpolationValue = localizedText.interpolationValues[interpolationKeyIndex];
+                                    interpolationValue = interpolationValues[interpolationKeyIndex];
                                 }
 
                                 result += interpolationValue;
@@ -526,9 +556,9 @@ namespace KPLocalization
             return -1;
         }
 
-        private string Transform(LocalizedText localizedText, string newText)
+        private string Transform(bool shouldTransformUppercase, string newText)
         {
-            if (localizedText.shouldTransformUppercase)
+            if (shouldTransformUppercase)
             {
                 // Unfortunately, CultureInfo is not exposed to Udon. So we can't tell it to convert
                 // to uppercase based on locale. Instead, use the invariant locale.
