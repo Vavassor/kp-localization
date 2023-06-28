@@ -1,7 +1,7 @@
 {
   "name": "com.vavassor.kplocalization",
   "displayName": "KP Localization",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Localization for VRChat worlds",
   "author": {
     "email": "dawso.andrew@gmail.com",
@@ -10,7 +10,7 @@
   "license": "MIT",
   "gitDependencies": {},
   "vpmDependencies": {
-    "com.vrchat.worlds": "3.2.0",
+    "com.vrchat.worlds": "3.2.1",
     "com.vrchat.udonsharp": "1.1.8"
   },
   "legacyFolders" : {
