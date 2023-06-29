@@ -143,7 +143,12 @@ namespace KPLocalization
 
             if (shouldUseCurrentCultureOnStart)
             {
-                SetPreferredLocale(CultureInfo.CurrentCulture.ToString());
+                var currentCulture = CultureInfo.CurrentCulture != null ? CultureInfo.CurrentCulture.ToString() : "";
+
+                if (currentCulture.Length > 0)
+                {
+                    SetPreferredLocale(currentCulture);
+                }
             }
         }
 
