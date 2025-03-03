@@ -1,5 +1,7 @@
 # KP Localization
 
+Deprecation Notice: This package is deprecated as of March 3, 2025 and removed from the [Orchid Seal VPM](https://vavassor.github.io/OrchidSealVPM/).
+
 KP Localization is a package to help VRChat world creators support multiple languages.
 
 ## Limitations
